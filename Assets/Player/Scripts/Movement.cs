@@ -70,7 +70,7 @@ public class Movement : MonoBehaviour
 
         cam.transform.localRotation = Quaternion.Euler(-lookY, 0f, 0f);
 
-        Debug.Log("x: " + lookValue.x + "    y: " + lookValue.y);
+        //Debug.Log("x: " + lookValue.x + "    y: " + lookValue.y);
 
         if (jump.IsPressed() && onGround)
         {

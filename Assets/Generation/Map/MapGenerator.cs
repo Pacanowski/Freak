@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Assemblies;
+using System.Runtime.InteropServices;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -28,6 +30,14 @@ public class MapGenerator : MonoBehaviour
 
     public TerrainType[] biomes;
 
+    public Transform meshPos;
+
+
+
+    public TreeGenerator treeGen;
+    public int maxTreeCount = 100;
+    public int treeCount = 0;
+
     void Start()
     {
         GenerateMap();
@@ -35,6 +45,10 @@ public class MapGenerator : MonoBehaviour
 
     public void GenerateMap()
     {
+
+        treeCount = 0;
+
+
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
@@ -50,6 +64,19 @@ public class MapGenerator : MonoBehaviour
                         colourMap[y * mapChunkSize + x] = biomes[i].colour;
                         break;
                     }
+                }
+
+                if (currentHeight >= 0.8 && treeCount < maxTreeCount)
+                {
+
+                    float treeSpawnChance = Random.value;
+                    if (treeSpawnChance > 0.95f)
+                    {
+                        treeGen.GenerateTree(x - 120, 50, -y + 120);
+                        //Debug.Log(currentHeight);
+                        treeCount++;
+                    }
+
                 }
             }
         }
