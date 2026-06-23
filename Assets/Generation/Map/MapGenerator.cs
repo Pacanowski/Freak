@@ -28,6 +28,11 @@ public class MapGenerator : MonoBehaviour
 
     public TerrainType[] biomes;
 
+    void Start()
+    {
+        GenerateMap();
+    }
+
     public void GenerateMap()
     {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
