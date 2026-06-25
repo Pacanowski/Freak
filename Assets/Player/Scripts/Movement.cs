@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Movement : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Movement : MonoBehaviour
     InputAction move;
     InputAction look;
 
+    InputAction sprint;
+
 
     bool onGround;
 
@@ -23,6 +26,10 @@ public class Movement : MonoBehaviour
 
     float maxVelocity = 5f;
 
+    float sprintSpeed;
+
+    public TMP_Text velocity;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,6 +39,7 @@ public class Movement : MonoBehaviour
         jump = InputSystem.actions.FindAction("Jump");
         move = InputSystem.actions.FindAction("Move");
         look = InputSystem.actions.FindAction("Look");
+        sprint = InputSystem.actions.FindAction("Sprint");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -42,6 +50,8 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        velocity.text = "Velocity: " + Math.Round(rb.linearVelocity.x, 3).ToString();
 
         cam.transform.position = gameObject.transform.position;
 
@@ -58,10 +68,19 @@ public class Movement : MonoBehaviour
 
         lookY = Mathf.Clamp(lookY, -45f, 45f);
 
+        if (sprint.IsPressed())
+        {
+            sprintSpeed = 5f;
+        }
+        else
+        {
+            sprintSpeed = 1f;
+        }
+
         if (moveValue.x != 0 || moveValue.y != 0)
         {
             Vector3 moveDir = transform.forward * moveValue.y + transform.right * moveValue.x;
-            rb.AddForce(moveDir.normalized * 2, ForceMode.Force);
+            rb.AddForce(moveDir.normalized * 2 * sprintSpeed, ForceMode.Force);
 
             //Debug.Log("x: " + moveValue.x + "    y: " + moveValue.y);
         }

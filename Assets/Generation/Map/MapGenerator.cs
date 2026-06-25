@@ -70,9 +70,10 @@ public class MapGenerator : MonoBehaviour
                 {
 
                     float treeSpawnChance = Random.value;
+
                     if (treeSpawnChance > 0.95f)
                     {
-                        treeGen.GenerateTree(x - 120, 50, -y + 120);
+                        treeGen.GenerateTree(x - 120, -y + 120);
                         //Debug.Log(currentHeight);
                         treeCount++;
                     }
